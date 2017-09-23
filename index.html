@@ -81,12 +81,14 @@
           <p class="lead boldHeader">Understanding Solr Explain:</p>
           <p>In this article, I am going to explain the solr explain in details.</p>
           <p>When you search any term in solr basically you see the results based on decending order of score.
-          If you want to understand how these documents score are calculated then you need to add in query <strong>debugQuery=true </strong>and 
-          <strong>debug.explain.structured=true</strong></p>
+          If you want to understand how these documents score are calculated then you need to add <strong>debugQuery=true </strong>and 
+          <strong>debug.explain.structured=true</strong> in solr query</p>
           <p>For example:</p>
            <p>http://localhost:8983/solr/demo/search/?q=technology&version=2.2&start=0&rows=10&indent=on&wt=json&debugQuery=true&debug.explain.structured=true</p>
-	    <p>When execute the above query you get the below results:</p>
-	     <p>{
+	    <p>When executed the above query i got the below results:</p>
+	     
+		     <pre id="code_snippet_11" style="position:relative;width:100%;border:0;padding:0;">
+    {
   "responseHeader":{
     "status":0,
     "QTime":811},
@@ -108,7 +110,9 @@
 	},
   --------
   ]
- }</p>
+ }
+ </pre>
+ 
           <hr>
 
           <!-- Comments Form -->
