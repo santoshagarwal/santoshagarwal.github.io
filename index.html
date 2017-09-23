@@ -94,28 +94,78 @@
         "url":"localhost:8983/certificate-programs/technology-and-sciences.html",
         "title":"Health Information Technology",
         "category":"programs",
-        "score":58.416084},
+        "score":31.509829},
       {
         "url":"localhost:8983/certificate-programs/arts-and-sciences.html",
         "title":"Communication And Technology Certificate",
         "category":"programs",
-        "score":41.853394
+        "score":27.5711
 	},
   -----------
   ]
- </pre>
+      </pre>
 		<p>Total documents we got here is 323 but i have shown above only two for understanding the scoring calculation.
-		first document with url="localhost:8983/certificate-programs/technology-and-sciences.html" and score=58.416084</p>
-		<p>second document with url="localhost:8983/certificate-programs/arts-and-sciences.html" and score=41.853394 </p>
-		<p>Lets understand the debug parse query below</p>
-		<pre>"debug":{
-    "queryBoosting":{
-      "q":"technology",
-      "match":null},
-    "rawquerystring":"technology",
-    "querystring":"technology",
-    "parsedquery":"+DisjunctionMaxQuery((sdim_keywords:technology | dim_article_author:technology^10.0 | all_text:technology^3.0 | searchable_category:technology^10.0 | title:technology^20.0 | postal_code:technology^10.0 | searchable_subcategory:technology^7.0)~0.3)
-    DisjunctionMaxQuery((searchable_category:technology^20.0 | dim_article_author:technology^20.0 | title:technology^40.0 | all_text:technology^6.0 | searchable_subcategory:technology^14.0)~0.3) </pre>
+		first document with url="localhost:8983/certificate-programs/technology-and-sciences.html" and score=31.509829</p>
+		<p>second document with url="localhost:8983/certificate-programs/arts-and-sciences.html" and score=27.5711 </p>
+		
+		<p>The calculated score not only depends upon how many times search query string is present in searched field, but it also depends upon other factors as explained in Lucene’s 
+		<a href="http://lucene.apache.org/core/4_2_0/core/org/apache/lucene/search/similarities/TFIDFSimilarity.html">TFIDFSimilarity</a>.</p>
+		<p><a href="http://blog.thedigitalgroup.com/dattatrayap/wp-content/uploads/sites/22/2015/06/lucence11.png">
+		<img class="lazy alignnone wp-image-31 size-full" src="http://blog.thedigitalgroup.com/dattatrayap/wp-content/uploads/sites/22/2015/06/lucence11.png" data-original="http://blog.thedigitalgroup.com/dattatrayap/wp-content/uploads/sites/22/2015/06/lucence11.png" alt="lucence1" width="865" height="143" style="display: inline;"></p>
+		<p>Lets look at the debug parsed query below</p>
+		<pre>
+		"debug":{
+                 "rawquerystring":"technology",
+                 "querystring":"technology",
+                 "parsedquery":"+DisjunctionMaxQuery((all_text:technology^10.0)~0.3) ()",
+                  "parsedquery_toString":"+(all_text:technology^10.0)~0.3 ()",
+		</pre>
+		
+		<p>Now lets look at the explain part below</p>
+		<pre>
+		"explain":{
+      "localhost:8983/certificate-programs/technology-and-sciences.html":{
+        "match":true,
+        "value":31.509829,
+        "description":"sum of:",
+        "details":[{
+            "match":true,
+            "value":31.509829,
+            "description":"weight(all_text:technology^10.0 in 64), product of:",
+            "details":[{
+                "match":true,
+                "value":0.99999994,
+                "description":"queryWeight(all_text:technology^10.0), product of:",
+                "details":[{
+                    "match":true,
+                    "value":10.0,
+                    "description":"boost"},
+                  {
+                    "match":true,
+                    "value":2.785102,
+                    "description":"idf(docFreq=426, maxDocs=2545)"},
+                  {
+                    "match":true,
+                    "value":0.035905328,
+                    "description":"queryNorm"}]},
+              {
+                "match":true,
+                "value":31.50983,
+                "description":"fieldWeight(all_text:technology in 64), product of:",
+                "details":[{
+                    "match":true,
+                    "value":1.4142135,
+                    "description":"tf(termFreq(all_text:technology)=2)"},
+                  {
+                    "match":true,
+                    "value":2.785102,
+                    "description":"idf(docFreq=426, maxDocs=2545)"},
+                  {
+                    "match":true,
+                    "value":8.0,
+                    "description":"fieldNorm(field=all_text, doc=64)"}]}]}]},
+		</pre>
+		<p>Understand the terms used in the above formula</p>
           <hr>
 
           <!-- Comments Form -->
