@@ -84,12 +84,13 @@
           If you want to understand how these documents score are calculated then you need to add <strong>debugQuery=true </strong>and 
           <strong>debug.explain.structured=true</strong> in solr query</p>
           <p>For example:</p>
-           <p>http://localhost:8983/solr/demo/search/?q=technology&fl=url,title,category,score&version=2.2&start=0&rows=10&indent=on&wt=json&debugQuery=true&debug.explain.structured=true</p>
+           <p>http://localhost:8983/solr/demo/search/?q=technology&fl=url,title,category,score&version=2.2&start=0&rows=2
+		   &indent=on&wt=json&debugQuery=true&debug.explain.structured=true</p>
 	    <p>When executed the above query i got the below results:</p>
 	     
 		     <pre id="code_snippet_11" style="position:relative;width:100%;border:0;padding:0;">
   
-  "response":{"numFound":323,"start":0,"maxScore":58.416084,"docs":[
+  "response":{"numFound":323,"start":0,"maxScore":31.509829,"docs":[
       {
         "url":"localhost:8983/certificate-programs/technology-and-sciences.html",
         "title":"Health Information Technology",
@@ -100,8 +101,7 @@
         "title":"Communication And Technology Certificate",
         "category":"programs",
         "score":27.5711
-	},
-  -----------
+	}
   ]
       </pre>
 		<p>Total documents we got here is 323 but i have shown above only two for understanding the scoring calculation.
